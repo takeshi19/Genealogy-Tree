@@ -182,7 +182,7 @@ public class GenealogyTree{
 					parentChildList.add(node);
 				}
 				if (parentChildList.size() != 2) { 
-					continue;	//If there aren't exactly 2 items in this list, child & parent, then get next line.
+					continue;	//If there aren't exactly 2 items in this list, child & parent, then get next line.**
 				}
 				//**After passing format checks, construct new nodes out of file String data.**
 				String parent = parentChildList.get(0).trim(); //Parent comes before child in the file line.
@@ -196,10 +196,6 @@ public class GenealogyTree{
 					root.addChild(childNode);			//Root node now holds the child node from same line.
 					queueOfNodes.enqueue(root);			//Enqueue root with child to the nodeQueue.
 					queueOfNodes.enqueue(childNode);
-					//TODO do we also add childNode separately to the nodeQueue?
-						//We have a -> b, but then what if 3 lines later we get b -> e. There is no b in the 
-							//the next position of the queue, if we never enqueued the childNode (1st child of root), 
-								//so then B will never get added. pop pop pop pop pop, end while.
 				}
 				//If there is an already existing tree, then continue adding nodes to it.
 				else {
@@ -247,8 +243,22 @@ public class GenealogyTree{
 	 * @param indent_str indicates string of characters precede each print level
 	 */
 	private void printTreeWithIndent(TreeNode<String> current, int indent_count, String indent_str){
-        // TODO: COMPLETE THIS METHOD
-
+		if (current.getData().equals(root.getData())) { //FIXME bad condition
+			System.out.println(current.getData()); //Print root data 1st without any leading periods ("..").
+		}
+		else {
+			indent_count += 1;		//Experimental code.
+			
+			for (int i = 0; i < indent_count; i++) {
+				System.out.print(indent_str);
+			}
+			System.out.println(current.getData()); //Print data after i-amount of leading periods are printed.
+		}
+		ListADT<TreeNode<String>> children = current.getChildren(); //Getting the children of each node in the tree.
+		for (TreeNode<String> node : children) {
+			printTreeWithIndent(node, indent_count, indent_str); //FIXME +1.
+		}
+		return;		//Explicitly return after a leaf is processed and printed. 
 	}
 
 	/**
@@ -260,7 +270,7 @@ public class GenealogyTree{
 	 *       recursively use pre-order to print children nodes.
 	 *
 	 * Each line of output represents a node, use indent (number of spaces before node data)
-	 * to indicate which level the current node belongs to.
+	 * to indicate which the current node belongs to.
 	 * For root node (at level 0), use 0 spaces.
 	 * For nodes at other levels, add 2 spaces of indent each level.
 	 *

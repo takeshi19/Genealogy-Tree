@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class testclass {
 	/**
 	 * tip you may wish to hard code tree nodes until you get the load from file method working as needed
@@ -7,7 +9,15 @@ public class testclass {
 //		Stack<String> linkedSt = new Stack<String>();
 //		StackADT<String> newGuy = new Stack<String>();
 		GenealogyTree bigTree = new GenealogyTree();
-
+		
+		try {
+			bigTree.buildFromFile("input1.txt");
+			bigTree.printTree();
+		} catch(IOException e) {
+			System.out.println("Spliterator");
+		}
+		
+		
 				//** Big Boi Test 1 **// Passes both tests.
 		
 		//**All of the new tree nodes we will be adding to our G-Tree.**
