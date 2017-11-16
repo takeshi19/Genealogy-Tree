@@ -157,7 +157,7 @@ public class GenealogyTree{
 	 * 
 	 */
 	public void buildFromFile(String filename) throws IOException {
-		QueueADT<TreeNode<String>> nodeQueue = new Queue<TreeNode<String>>(); //Queue holding each node from file.
+		QueueADT<TreeNode<String>> queueOfNodes = new Queue<TreeNode<String>>(); //Queue stores parents-children from file.
 		File inputFile = null;												  //File object made from the filename.
 		Scanner scnr = null;												  //Scanner to read from the file.
 
@@ -165,7 +165,7 @@ public class GenealogyTree{
 			inputFile = new File(filename);
 			scnr = new Scanner(inputFile);
 			
-			while (scnr.hasNextLine()) {
+			while (scnr.hasNextLine()) {	//Read each line of the file for a parent-child relationship.
 				String fileLine = scnr.nextLine().trim();
 				//**Check the file lines for valid format before making nodes to add to nodeQueue.**
 				if (fileLine.isEmpty()) {
@@ -175,7 +175,7 @@ public class GenealogyTree{
 					continue; 		//If no arrow to indicate parent-child relationship, skip that line, read next line. 
 				}
 				//**Check if a child follows from ->. If it does, then we can make nodes out of current line.**
-				String[] parentAndChild = fileLine.split("->"); //Try to get nodes from the parent-child relationship.
+				String[] parentAndChild = fileLine.split("->"); 
 				ArrayList<String> parentChildList = new ArrayList<String>();
 				
 				for (String node : parentAndChild) {
@@ -185,7 +185,7 @@ public class GenealogyTree{
 					continue;	//If there aren't exactly 2 items in this list, child & parent, then get next line.
 				}
 				//**After passing format checks, construct new nodes out of file String data.**
-				String parent = parentChildList.get(0).trim(); //Parent comes before child.
+				String parent = parentChildList.get(0).trim(); //Parent comes before child in the file line.
 				String child = parentChildList.get(1).trim();  //Child comes after parent.
 				TreeNode<String> parentNode = new TreeNode<String>(parent);
 				TreeNode<String> childNode = new TreeNode<String>(child);
@@ -194,12 +194,17 @@ public class GenealogyTree{
 				if (getRoot() == null) {
 					root = parentNode; 					//Creating root from first parent in file.
 					root.addChild(childNode);			//Root node now holds the child node from same line.
-					nodeQueue.enqueue(root);			//Enqueue root with child to the nodeQueue.
+					queueOfNodes.enqueue(root);			//Enqueue root with child to the nodeQueue.
+					queueOfNodes.enqueue(childNode);
+					//TODO do we also add childNode separately to the nodeQueue?
+						//We have a -> b, but then what if 3 lines later we get b -> e. There is no b in the 
+							//the next position of the queue, if we never enqueued the childNode (1st child of root), 
+								//so then B will never get added. pop pop pop pop pop, end while.
 				}
 				//If there is an already existing tree, then continue adding nodes to it.
 				else {
-					while (!nodeQueue.isEmpty()) {
-						TreeNode<String> nextNodeInQueue = nodeQueue.element();
+					while (!queueOfNodes.isEmpty()) {
+						TreeNode<String> nextNodeInQueue = queueOfNodes.element();
 						/*
 						 * If item returned from the front of the list matches the parent from the file line,
 						 * then add the respective child to that parent. Avoids duplicate parents being added into
@@ -207,20 +212,19 @@ public class GenealogyTree{
 						 */
 						if (nextNodeInQueue.getData().equals(parentNode.getData())) {
 							nextNodeInQueue.addChild(childNode); 
-							nodeQueue.enqueue(childNode);		
-							break;
+							queueOfNodes.enqueue(childNode);		
+							break;	//Break inner-loop, go to next line in the file to process data to tree.
 						}
+						/*
+						 * If no match between parentNode and front node in queue, dequeue, then check next front node
+						 * for a match until either nodeQueue is empty or we find a parent node to add child to.
+						 */
 						else {
-							//Why would we want to dequeue from the nodeQueue if nextNodeInQueue doesn't equal 
-							//file's data parent. After removal, then next loop, we get a new node from the next
-								//slot in the queue. SO this allows for searching through the nodeQueue until
-									//the if condition is finally executed and we break. pretty smart.
-							nodeQueue.dequeue(); //Leads to while loop eventually breaking....
+							queueOfNodes.dequeue(); 
 						}
 					}
 				}
 			}
-			
 		} catch(IOException e) {  //Display error message and throw IOException if any error occur for file-read.
 			System.out.println(LOAD_GENEALOGY_ERROR_MESSAGE);
 			throw new IOException();

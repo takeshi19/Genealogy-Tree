@@ -8,34 +8,34 @@ public class testclass {
 //		StackADT<String> newGuy = new Stack<String>();
 		GenealogyTree bigTree = new GenealogyTree();
 
-				//** Big Boi Test 1 **//
+				//** Big Boi Test 1 **// Passes both tests.
 		
 		//**All of the new tree nodes we will be adding to our G-Tree.**
-		TreeNode<String> t1 = new TreeNode<String>("A");
-		TreeNode<String> t2 = new TreeNode<String>("B");
-		TreeNode<String> t3 = new TreeNode<String>("C");
-		TreeNode<String> t4 = new TreeNode<String>("D");
-		TreeNode<String> t5 = new TreeNode<String>("E");
-		TreeNode<String> t6 = new TreeNode<String>("F");
-		TreeNode<String> t7 = new TreeNode<String>("G");
+//		TreeNode<String> t1 = new TreeNode<String>("A");
+//		TreeNode<String> t2 = new TreeNode<String>("B");
+//		TreeNode<String> t3 = new TreeNode<String>("C");
+//		TreeNode<String> t4 = new TreeNode<String>("D");
+//		TreeNode<String> t5 = new TreeNode<String>("E");
+//		TreeNode<String> t6 = new TreeNode<String>("F");
+//		TreeNode<String> t7 = new TreeNode<String>("G");
 		
 		//**Getting the root of the G-Tree.**
-		TreeNode<String> rootBeer = bigTree.getRoot(); 
+//		TreeNode<String> rootBeer = bigTree.getRoot(); 
 		
 		//**rootBeer now points to "A". rootBeer is the root of the G-Tree.**
-		rootBeer = t1;
+//		rootBeer = t1;
 		
 		//**Adding children to the G-Tree's root node.**
-		rootBeer.addChild(t2);
-		rootBeer.addChild(t3);
+//		rootBeer.addChild(t2);
+//		rootBeer.addChild(t3);
 		
 		//**Adding children to children.**
-		t2.addChild(t4);
-		t2.addChild(t5);
-		t3.addChild(t6);
-		t3.addChild(t7);		
+//		t2.addChild(t4);
+//		t2.addChild(t5);
+//		t3.addChild(t6);
+//		t3.addChild(t7);		
 		
-		StackADT<String> stack = new Stack<String>(); 
+//		StackADT<String> stack = new Stack<String>(); 
 		
 		
 		//WORKS. made public getAncestorStack for testing purposes.
