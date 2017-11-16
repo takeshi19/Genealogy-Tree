@@ -3,11 +3,12 @@ public class testclass {
 	 * tip you may wish to hard code tree nodes until you get the load from file method working as needed
 	 */
 	public static void main (String[] args) {
-		Queue<Integer> linkedQ = new Queue<Integer>();
-		Stack<String> linkedSt = new Stack<String>();
-		StackADT<String> newGuy = new Stack<String>();
+//		Queue<Integer> linkedQ = new Queue<Integer>();
+//		Stack<String> linkedSt = new Stack<String>();
+//		StackADT<String> newGuy = new Stack<String>();
 		GenealogyTree bigTree = new GenealogyTree();
-					//** Big Boi Test 1 **//
+
+				//** Big Boi Test 1 **//
 		
 		//**All of the new tree nodes we will be adding to our G-Tree.**
 		TreeNode<String> t1 = new TreeNode<String>("A");
@@ -21,30 +22,33 @@ public class testclass {
 		//**Getting the root of the G-Tree.**
 		TreeNode<String> rootBeer = bigTree.getRoot(); 
 		
-		//** rootBeer now points to "A". rootBeer is the root of the G-Tree.
+		//**rootBeer now points to "A". rootBeer is the root of the G-Tree.**
 		rootBeer = t1;
-		
-//		System.out.println(rootBeer.getData()); //Prints a instead of null-check. -Not checked.
 		
 		//**Adding children to the G-Tree's root node.**
 		rootBeer.addChild(t2);
 		rootBeer.addChild(t3);
-		rootBeer.addChild(t4);
-		rootBeer.addChild(t5);
-		rootBeer.addChild(t6);
-		rootBeer.addChild(t7);
+		
+		//**Adding children to children.**
+		t2.addChild(t4);
+		t2.addChild(t5);
+		t3.addChild(t6);
+		t3.addChild(t7);		
 		
 		StackADT<String> stack = new Stack<String>(); 
 		
-		//Seems fine here.
-		StackADT<String> bigStack = bigTree.getAncestorStack(stack, rootBeer, t3.getData());
+		//Seems fine here. made public getAncestorStack for testing purposes.
+//		StackADT<String> bigStack = bigTree.getAncestorStack(stack, rootBeer, t7.getData());
+	
+		System.out.println("-------Printing the G-Tree Nodes-------");
 		
-//		System.out.println(bigStack.peek()); //good... so far...
-		
-		for (int i = 0; i < 1; i++) {
-			System.out.println("-------");
+		for (int i = 0; i < 3; i++) {
 			System.out.println(bigStack.pop());
 		}
+		
+//		for (int i = 0; i < 2; i++) { //Prints root at bottom, then target on top. YAYYY IT works 50%
+//			System.out.println(bigStack.pop());
+//		}
 		
 //		System.out.println(bigStack.isEmpty()); //Now that's a problem with your getAncestorClass() code.
 		//**Calling on the G-Tree's ancestorStack() method**
