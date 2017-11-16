@@ -6,7 +6,7 @@ public class Queue<T> implements QueueADT<T> {
 	 * The left-most node/beginning of the Linked List corresponds to the Front of the Queue.
 	 * The right-most node/end of the Linked List corresponds to the Rear of the Queue.
 	 * 
-	 * We enqueue from the front of the Queue and dequeue from the rear of the Queue.
+	 * We enqueue to the rear of the Queue and dequeue from the front of the Queue.
 	 */
 	public Queue() {
 		items = new LinkedList<T>();	
@@ -57,12 +57,5 @@ public class Queue<T> implements QueueADT<T> {
 			throw new EmptyQueueException();
 		}
 		return items.get(0);
-	}
-	
-	/**
-	 * @return An instance of the LinkedListIterator.
-	 */
-	public LinkedListIterator<T> iterator() {
-		return items.iterator();
 	}
 }

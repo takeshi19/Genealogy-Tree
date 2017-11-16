@@ -28,7 +28,7 @@ public class GenealogyTree{
 	public TreeNode<String> getRoot(){
 		return root;
 	}
-
+	
 	/**
 	 * return a Stack that contains the ancestors of the node with matching data
 	 * The root is at the bottom of the stack and the matching node is at the top
@@ -47,7 +47,7 @@ public class GenealogyTree{
 	public StackADT<String> getAncestorStack(String target) {
 		// DO NOT CHANGE THIS METHOD
 		StackADT<String> stack = new Stack<String>(); 
-		stack = getAncestorStack(stack,root,target); 
+		stack = getAncestorStack(stack,root,target);  
 		if (stack.peek().equals(target)) {
 			return stack;
 		}	
@@ -68,48 +68,47 @@ public class GenealogyTree{
 	 * @return a stack with the target data node at top and the root at the bottom 
 	 * or an empty stack if target is not found
 	 */
-	private StackADT<String> getAncestorStack(StackADT<String> st, TreeNode<String> curr, String target) {
+	//TODO PLEASE REVERT THE PUBLIC METHOD HEADER BACK TO PRIVATE. SOLELY FOR TESTING PURPOSES.
+	public StackADT<String> getAncestorStack(StackADT<String> st, TreeNode<String> curr, String target) {
 		//**If the tree is not empty, then search for the target's ancestors, put them in a stack.**
+		System.out.println("In getAncestorStack() method");
+		
 		if (curr != null) {
+			System.out.println(curr.getData());
 			st.push(curr.getData()); //Push a current node from tree to top of stack. peek() to compare it to target. 
 			
 			if (st.peek().equals(target)) { //If target is found in tree and returned to top of stack, return stack.
 				return st;
 			}
-			else {							//Else, keep searching down the path of the potential target's ancestors.
-				ListADT<TreeNode<String>> children = curr.getChildren();
-				//**Pre-order search each parent that has children.**
-				for (TreeNode<String> child : children) { 
-					//**finding the valid path of ancestor that lead up to the target node (curr).**
-					StackADT<String> ancestorPath = getAncestorStack(st, child, target);
-					
-					/**
-					 * Ancestorstack now equals st for the call to D's children. To call from root B. It has children
-					 * D and E. SO we pop D from the top of the stack. Then we traverse to E (right child), from root
-					 * B, so the stack holds EBA. E != target, pop E. Now we are back to stack BA. B != target, pop B.
-					 * Now stack has A when we return from the recursive call chain. 
-					 * 
-					 * ancestorPath = stack BA, B on top, A (root) at bottom. Pop B, then we call the 
-					 * recursive method (getAncestorStack()) for child = C.
-					 * 
-					 * We then get C's children, F and G.
-					 */
-					/*
-					 * After a stack is returned to a recursive call for one of the children in the for-each loop, 
-					 * determine if that stack contains the target node. If it does then it's the ancestor path, else
-					 * pop each node from that incorrect path until we get back to root. Continue pre-order search in 
-					 * the other subtree.
-					 */
-					if (ancestorPath.peek().equals(target)) {				
-						return ancestorPath; //Return path of ancestors from target, if target found.
-					}
-					else {
-						ancestorPath.pop();
-						st.pop(); //Pop from st so it isn't returning with incorrect nodes from a previous search.
-					}
+			
+			//**Else, keep searching down the path of the potential target's ancestors.**
+			
+			ListADT<TreeNode<String>> children = curr.getChildren();
+			System.out.println(children.isEmpty() + " -children list is empty"); //check.
+			//Finding the valid path of ancestor that lead up to the target node.
+			for (TreeNode<String> child : children) { 
+				StackADT<String> ancestorPath = getAncestorStack(st, child, target);
+				/*
+				 * After a stack is returned to a recursive call for one of the children in the for-each loop, 
+				 * determine if that stack contains the target node. If it does then it's the ancestor path, else
+				 * pop each node from that incorrect path until we get back to root. Continue pre-order search in 
+				 * the other subtree.
+				 */
+				if (ancestorPath.peek().equals(target)) {				
+					return ancestorPath; //Return path of ancestors from target, if target found.
 				}
-				return st; //When we reach end of tree (the leaves), return current stack back to recursive caller.
+				//FIXME we get an empty stack, no root node remaining for some reason.
+					//Check the concept of adding B...
+				
+				//FIXME what stack to pop from???
+				ancestorPath.pop();
+//				st.pop(); //Pop from st so it isn't returning with incorrect nodes from a previous search.
+				
+				//
+				System.out.println(st.isEmpty() + " - st");	
+				System.out.println(ancestorPath.isEmpty() + " - ancestorPath");
 			}
+			return st; //When we reach end of tree (the leaves), return current stack back to recursive caller.
 		}
 		
 		return st; //Return stack if done processing. Returns empty stack if root == null.
@@ -171,7 +170,7 @@ public class GenealogyTree{
 	 *	// close the file scanner
 	 * 
 	 */
-	public void buildFromFile(String filename) throws IOException{
+	public void buildFromFile(String filename) throws IOException {
         // TODO: COMPLETE THIS METHOD
 
 		// Create a queue, add each new node to the queue

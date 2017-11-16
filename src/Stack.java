@@ -77,11 +77,4 @@ public class Stack<T> implements StackADT<T> {
 		
 		return reversedStack;
 	}
-	
-	/**
-	 * @return An instance of the LinkedListIterator.
-	 */
-	public LinkedListIterator<T> iterator() {
-		return items.iterator();
-	}
 }
