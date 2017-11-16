@@ -37,15 +37,16 @@ public class testclass {
 		
 		StackADT<String> stack = new Stack<String>(); 
 		
-		//Seems fine here. made public getAncestorStack for testing purposes.
+		
+		//WORKS. made public getAncestorStack for testing purposes.
 //		StackADT<String> bigStack = bigTree.getAncestorStack(stack, rootBeer, t7.getData());
 	
-		System.out.println("-------Printing the G-Tree Nodes-------");
-		
-		for (int i = 0; i < 3; i++) {
-			System.out.println(bigStack.pop());
-		}
-		
+//		System.out.println("-------Printing the G-Tree Nodes-------");
+//		
+//		for (int i = 0; i < 3; i++) {
+//			System.out.println(bigStack.pop());
+//		}
+//		
 //		for (int i = 0; i < 2; i++) { //Prints root at bottom, then target on top. YAYYY IT works 50%
 //			System.out.println(bigStack.pop());
 //		}

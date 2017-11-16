@@ -1,4 +1,5 @@
 import java.util.*;
+
 import java.io.*;
 
 /**
@@ -79,9 +80,8 @@ public class GenealogyTree{
 			}
 			
 			//**Else, keep searching down the path of the potential target's ancestors.**
-			
 			ListADT<TreeNode<String>> children = curr.getChildren();
-			for (TreeNode<String> child : children) {  //Finding valid path of ancestor that lead up to the target node.
+			for (TreeNode<String> child : children) {  //Finding valid ancestor path that leads up to the target node.
 				StackADT<String> ancestorPath = getAncestorStack(st, child, target);
 				/*
 				 * After a stack is returned to a recursive call for one of the children in the for-each loop, 
@@ -157,46 +157,76 @@ public class GenealogyTree{
 	 * 
 	 */
 	public void buildFromFile(String filename) throws IOException {
-        // TODO: COMPLETE THIS METHOD
+		QueueADT<TreeNode<String>> nodeQueue = new Queue<TreeNode<String>>(); //Queue holding each node from file.
+		File inputFile = null;												  //File object made from the filename.
+		Scanner scnr = null;												  //Scanner to read from the file.
 
-		// Create a queue, add each new node to the queue
-			// create a Scanner connect to the file
-
-			// for each line of the file
-
-				// read the line
-
-				// parse the line into parent and child
-
-				// if root is null
-		
-					// create the root
-
-					// add its first child
-
-					// add the root and child to the queue
-		
-				// else Construct other TreeNode
-
-					// while queue is not empty
-
-						// get next node from queue without removing it from queue
-
-						// if "front" node matches the parent
-
-							// create a TreeNode for the child
-
-							// add the child node to the current "front" node (its parent)
-
-							// add the child to the queue
-
-							// break out of the loop
-
-						// else dequeue the front node 
-
-			// catch IO exceptions, display error message and rethrow the exception
-
-			// close the file scanner
+		try {
+			inputFile = new File(filename);
+			scnr = new Scanner(inputFile);
+			
+			while (scnr.hasNextLine()) {
+				String fileLine = scnr.nextLine().trim();
+				//**Check the file lines for valid format before making nodes to add to nodeQueue.**
+				if (fileLine.isEmpty()) {
+					continue;		//If there are any blank lines, skip them, and read next line of file.
+				}
+				if (!fileLine.contains("->")) {
+					continue; 		//If no arrow to indicate parent-child relationship, skip that line, read next line. 
+				}
+				//**Check if a child follows from ->. If it does, then we can make nodes out of current line.**
+				String[] parentAndChild = fileLine.split("->"); //Try to get nodes from the parent-child relationship.
+				ArrayList<String> parentChildList = new ArrayList<String>();
+				
+				for (String node : parentAndChild) {
+					parentChildList.add(node);
+				}
+				if (parentChildList.size() != 2) { 
+					continue;	//If there aren't exactly 2 items in this list, child & parent, then get next line.
+				}
+				//**After passing format checks, construct new nodes out of file String data.**
+				String parent = parentChildList.get(0).trim(); //Parent comes before child.
+				String child = parentChildList.get(1).trim();  //Child comes after parent.
+				TreeNode<String> parentNode = new TreeNode<String>(parent);
+				TreeNode<String> childNode = new TreeNode<String>(child);
+				
+				//If the Genealogy Tree is empty, then a new tree is going to be made from this file data.
+				if (getRoot() == null) {
+					root = parentNode; 					//Creating root from first parent in file.
+					root.addChild(childNode);			//Root node now holds the child node from same line.
+					nodeQueue.enqueue(root);			//Enqueue root with child to the nodeQueue.
+				}
+				//If there is an already existing tree, then continue adding nodes to it.
+				else {
+					while (!nodeQueue.isEmpty()) {
+						TreeNode<String> nextNodeInQueue = nodeQueue.element();
+						/*
+						 * If item returned from the front of the list matches the parent from the file line,
+						 * then add the respective child to that parent. Avoids duplicate parents being added into
+						 * the same Genealogy Tree.
+						 */
+						if (nextNodeInQueue.getData().equals(parentNode.getData())) {
+							nextNodeInQueue.addChild(childNode); 
+							nodeQueue.enqueue(childNode);		
+							break;
+						}
+						else {
+							//Why would we want to dequeue from the nodeQueue if nextNodeInQueue doesn't equal 
+							//file's data parent. After removal, then next loop, we get a new node from the next
+								//slot in the queue. SO this allows for searching through the nodeQueue until
+									//the if condition is finally executed and we break. pretty smart.
+							nodeQueue.dequeue(); //Leads to while loop eventually breaking....
+						}
+					}
+				}
+			}
+			
+		} catch(IOException e) {  //Display error message and throw IOException if any error occur for file-read.
+			System.out.println(LOAD_GENEALOGY_ERROR_MESSAGE);
+			throw new IOException();
+		} finally {
+			scnr.close();
+		}
 	}            
 
 	/**
