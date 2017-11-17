@@ -165,14 +165,14 @@ public class GenealogyTree{
 			inputFile = new File(filename);
 			scnr = new Scanner(inputFile);
 			
-			while (scnr.hasNextLine()) {	//Read each line of the file for a parent-child relationship.
+			while (scnr.hasNextLine()) {		//Read each line of the file for a parent-child relationship.
 				String fileLine = scnr.nextLine().trim();
 				//**Check the file lines for valid format before making nodes to add to nodeQueue.**
 				if (fileLine.isEmpty()) { 
-					throw new IOException();//If there are any blank lines, skip them, and read next line of file.
+					throw new IOException();	//If there are any blank lines, skip them, and read next line of file.
 				}
-				if (!fileLine.contains("->")) { //TODO Check
-					continue; 		//If no arrow to indicate parent-child relationship, skip that line, read next line. 
+				if (!fileLine.contains("->")) { 
+					continue; 	  //If no arrow to indicate parent-child relationship, skip that line, read next line. 
 				}
 				//**Check if a child follows from ->. If it does, then we can make nodes out of current line.**
 				String[] parentAndChild = fileLine.split("->"); 
@@ -182,16 +182,12 @@ public class GenealogyTree{
 					parentChildList.add(node);
 				}
 				if (parentChildList.size() != 2) { 
-					continue;	//If there aren't exactly 2 items in this list, child & parent, then get next line.**
+					continue;	//If there aren't exactly 2 items in this list, child & parent, then get next line.
 				}
-				//FIXME IT COULD BE HERE.
+				
 				//**After passing format checks, construct new nodes out of file String data.**
 				String parent = parentChildList.get(0).trim(); //Parent comes before child in the file line.
-				System.out.println();
-				System.out.println(parent + " :parent node◊◊◊");
-				
-				String child = parentChildList.get(1).trim();  //Child comes after parent.
-				System.out.println(child + " :child node◊◊◊");
+				String child = parentChildList.get(1).trim();  //Child comes after parent.				
 				TreeNode<String> parentNode = new TreeNode<String>(parent);
 				TreeNode<String> childNode = new TreeNode<String>(child);
 				
@@ -248,11 +244,11 @@ public class GenealogyTree{
 	 * @param indent_str indicates string of characters precede each print level
 	 */
 	private void printTreeWithIndent(TreeNode<String> current, int indent_count, String indent_str){
-		if (current.getData().equals(root.getData())) { //FIXME bad condition
+		if (current.getData().equals(root.getData())) { 
 			System.out.println(current.getData()); //Print root data 1st without any leading periods ("..").
 		}
 		else {
-			indent_count += 1;		//Experimental code.
+			indent_count += 1;					   //Increment indent_count by 1 for every new level of tree reached.		
 			
 			for (int i = 0; i < indent_count; i++) {
 				System.out.print(indent_str);
@@ -261,9 +257,9 @@ public class GenealogyTree{
 		}
 		ListADT<TreeNode<String>> children = current.getChildren(); //Getting the children of each node in the tree.
 		for (TreeNode<String> node : children) {
-			printTreeWithIndent(node, indent_count, indent_str); //FIXME +1.
+			printTreeWithIndent(node, indent_count, indent_str); 
 		}
-		return;		//Explicitly return after a leaf is processed and printed. 
+		return;	//Explicitly return after a leaf if processed and printed. 
 	}
 
 	/**

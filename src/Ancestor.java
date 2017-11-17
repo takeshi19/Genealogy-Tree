@@ -57,23 +57,43 @@ public class Ancestor{
      * @param name2 of second researcher to find
      * @return the name of the closest (lowest level) common ancestor researcher
      */
-    public String lowestCommonAncestor(String name1, String name2){
-        // TODO: COMPLETE THIS METHOD
+    public String lowestCommonAncestor(String name1, String name2){    	
+    	GenealogyTree geneTree = new GenealogyTree();			 //The GenealogyTree we are deriving the ancestors from.
+    	StackADT<String> researcher1Stack = new Stack<String>(); //Ancestor stack returned for researcher 1 (name1).
+    	StackADT<String> researcher2Stack = new Stack<String>(); //Ancestor stack returned for researcher 2 (name2).
     	
-    	// Get the ancestors of each name
+    	researcher1Stack = geneTree.getAncestorStack(name1); //The returned ancestor stack for researcher 1.
+    	researcher2Stack = geneTree.getAncestorStack(name2); //The returned ancestor stack for researcher 2.
 
-    	// display not found messages if appropriate
-    	
-    	// return null if either stack is empty
-
-        // if neither stack is empty (this means do GT class first)
-        // reverse both stacks so that the ancestors can be compared
+    	//If top of either stack does not have researchers name, then display the respective error message.
+    	if (!researcher1Stack.peek().equals(name1)) {
+    		System.out.println(NAME_NOT_FOUND_MESSAGE + name1);
+    	}
+    	if (researcher2Stack.peek().equals(name2)) {
+    		System.out.println(NAME_NOT_FOUND_MESSAGE + name2);
+    	}
+    	//Return null if either stack is empty. No lowest common ancestor can be found.
+    	if (researcher1Stack.isEmpty() || researcher2Stack.isEmpty()) {
+    		return null;
+    	}
+    	//Else, reverse both stacks so that the ancestors can be compared.
+    	else {	
+    		researcher1Stack = researcher1Stack.reverse();
+    		String researcher1root = researcher1Stack.peek();  //Reversed stack for first researcher.
+    		
+    		researcher2Stack = researcher2Stack.reverse();
+    		String researcher2root = researcher2Stack.peek();  //Reversed stack for first researcher.
+    		
+    		//Get the level 
+    		for (TreeNode<String>)
+    	}
 
         // Return the lowest level name in the tree
     	// that is an ancestor of both of the specified 
     	// researcher names.
     	
     	// return the common researcher
+    	return "dogs"; //TODO DELETE THIS 
     }
 
     /** 
