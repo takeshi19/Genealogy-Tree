@@ -11,12 +11,11 @@ public class testclass {
 		GenealogyTree bigTree = new GenealogyTree();
 		
 		try {
-			bigTree.buildFromFile("input1.txt");
+			bigTree.buildFromFile("input_error.txt"); //FIXME on buildFromFile
 			bigTree.printTree();
 		} catch(IOException e) {
-			System.out.println("Spliterator");
+			System.out.println(".");
 		}
-		
 		
 				//** Big Boi Test 1 **// Passes both tests.
 		

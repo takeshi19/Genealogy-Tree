@@ -157,9 +157,9 @@ public class GenealogyTree{
 	 * 
 	 */
 	public void buildFromFile(String filename) throws IOException {
-		QueueADT<TreeNode<String>> queueOfNodes = new Queue<TreeNode<String>>(); //Queue stores parents-children from file.
-		File inputFile = null;												  //File object made from the filename.
-		Scanner scnr = null;												  //Scanner to read from the file.
+		QueueADT<TreeNode<String>> queueOfNodes = new Queue<TreeNode<String>>(); //Queue gets node references from file.
+		File inputFile = null;												     //File object made from the filename.
+		Scanner scnr = null;												  	 //Scanner to read from the file.
 
 		try {
 			inputFile = new File(filename);
@@ -168,10 +168,10 @@ public class GenealogyTree{
 			while (scnr.hasNextLine()) {	//Read each line of the file for a parent-child relationship.
 				String fileLine = scnr.nextLine().trim();
 				//**Check the file lines for valid format before making nodes to add to nodeQueue.**
-				if (fileLine.isEmpty()) {
-					continue;		//If there are any blank lines, skip them, and read next line of file.
+				if (fileLine.isEmpty()) { 
+					throw new IOException();//If there are any blank lines, skip them, and read next line of file.
 				}
-				if (!fileLine.contains("->")) {
+				if (!fileLine.contains("->")) { //TODO Check
 					continue; 		//If no arrow to indicate parent-child relationship, skip that line, read next line. 
 				}
 				//**Check if a child follows from ->. If it does, then we can make nodes out of current line.**
@@ -184,9 +184,14 @@ public class GenealogyTree{
 				if (parentChildList.size() != 2) { 
 					continue;	//If there aren't exactly 2 items in this list, child & parent, then get next line.**
 				}
+				//FIXME IT COULD BE HERE.
 				//**After passing format checks, construct new nodes out of file String data.**
 				String parent = parentChildList.get(0).trim(); //Parent comes before child in the file line.
+				System.out.println();
+				System.out.println(parent + " :parent node◊◊◊");
+				
 				String child = parentChildList.get(1).trim();  //Child comes after parent.
+				System.out.println(child + " :child node◊◊◊");
 				TreeNode<String> parentNode = new TreeNode<String>(parent);
 				TreeNode<String> childNode = new TreeNode<String>(child);
 				
