@@ -31,7 +31,7 @@ public class Ancestor{
     private static final String NAME_NOT_FOUND_MESSAGE = "Can not find name: ";
     private static final String PROGRAM_USAGE_MESSAGE = "Usage: \njava Ancestor ancestors_data.txt";
 
-    private GenealogyTree g;
+    private GenealogyTree g;	//Instance of the GenealogyTree class, used for calling its methods from Ancestor.
 
     public Ancestor() {
         g = new GenealogyTree();
@@ -60,25 +60,21 @@ public class Ancestor{
     	StackADT<String> researcher1Stack = new Stack<String>(); //Ancestor stack returned for researcher 1 (name1).
     	StackADT<String> researcher2Stack = new Stack<String>(); //Ancestor stack returned for researcher 2 (name2).
     	ArrayList<String> commonAncestors = new ArrayList<String>(); //Stores the common ancestors between the stacks. 
-    	String lowestCommonAncestor = "";						 //The lowest common ancestor returned from both stacks. 
+    	String lowestCommonAncestor = null;						 //The lowest common ancestor returned from both stacks. 
        	
     	researcher1Stack = g.getAncestorStack(name1);  
     	researcher2Stack = g.getAncestorStack(name2); 
-    	
-    	//If top of either stack does not have researchers name, then display the respective error message.
-    	if (!researcher1Stack.peek().equals(name1)) {
-    		System.out.println(NAME_NOT_FOUND_MESSAGE + name1);
-    	}
-    	if (!researcher2Stack.peek().equals(name2)) {
-    		System.out.println(NAME_NOT_FOUND_MESSAGE + name2);
-    	}
-    	//Return null if either stack is empty. No lowest common ancestor can be found.
+   
+    	//getAncestorStack() returns empty stacks when a given name is not able to be found in the tree.
     	if (researcher1Stack.isEmpty() || researcher2Stack.isEmpty()) {
-    		return null;
+    		if (researcher1Stack.isEmpty()) { 
+        		System.out.println(NAME_NOT_FOUND_MESSAGE + name1);
+        	}
+        	if (researcher2Stack.isEmpty()) {
+        		System.out.println(NAME_NOT_FOUND_MESSAGE + name2);
+        	}
     	}
-    	
-    	//Else, reverse both stacks so that the ancestors can be compared. Root is now on the top of stack.
-    	else {	
+    	else {
     		researcher1Stack = researcher1Stack.reverse();  //Reversed stack for first researcher.  
     		researcher2Stack = researcher2Stack.reverse();	//Reversed stack for second researcher.
     		
