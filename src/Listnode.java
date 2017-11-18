@@ -71,5 +71,4 @@ public class Listnode<T> {
     void setNext(Listnode<T> next) {
         this.next = next;
     }
-    
 }

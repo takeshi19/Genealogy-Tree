@@ -69,12 +69,11 @@ public class GenealogyTree{
 	 * @return a stack with the target data node at top and the root at the bottom 
 	 * or an empty stack if target is not found
 	 */
-	private StackADT<String> getAncestorStack(StackADT<String> st, TreeNode<String> curr, String target) {
-		
+	private StackADT<String> getAncestorStack(StackADT<String> st, TreeNode<String> curr, String target) {	
 		//**If the tree is not empty, then search for the target's ancestors, put them in a stack.**		
 		if (curr != null) {
 			st.push(curr.getData()); //Push a current node from tree to top of stack. peek() to compare it to target. 
-			
+
 			if (st.peek().equals(target)) { 
 				return st;			 //If target is found in tree and returned to top of stack, return stack.
 			}
@@ -160,7 +159,7 @@ public class GenealogyTree{
 		QueueADT<TreeNode<String>> queueOfNodes = new Queue<TreeNode<String>>(); //Queue gets node references from file.
 		File inputFile = null;												     //File object made from the filename.
 		Scanner scnr = null;												  	 //Scanner to read from the file.
-
+		
 		try {
 			inputFile = new File(filename);
 			scnr = new Scanner(inputFile);
@@ -198,7 +197,7 @@ public class GenealogyTree{
 					queueOfNodes.enqueue(root);			//Enqueue root with child to the nodeQueue.
 					queueOfNodes.enqueue(childNode);
 				}
-				//If there is an already existing tree, then continue adding nodes to it.
+				//Else, there is an already existing tree, so continue adding nodes to it.
 				else {
 					while (!queueOfNodes.isEmpty()) {
 						TreeNode<String> nextNodeInQueue = queueOfNodes.element();
@@ -255,11 +254,12 @@ public class GenealogyTree{
 			}
 			System.out.println(current.getData()); //Print data after i-amount of leading periods are printed.
 		}
+		
 		ListADT<TreeNode<String>> children = current.getChildren(); //Getting the children of each node in the tree.
 		for (TreeNode<String> node : children) {
 			printTreeWithIndent(node, indent_count, indent_str); 
 		}
-		return;	//Explicitly return after a leaf if processed and printed. 
+		return;	//Explicitly return after a leaf is processed and printed. 
 	}
 
 	/**
