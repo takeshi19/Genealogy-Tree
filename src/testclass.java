@@ -6,7 +6,7 @@ public class testclass {
 	 */
 	public static void main (String[] args) {
 //		Queue<Integer> linkedQ = new Queue<Integer>();
-//		Stack<String> linkedSt = new Stack<String>();
+		Stack<String> linkedSt = new Stack<String>();
 //		StackADT<String> newGuy = new Stack<String>();
 		GenealogyTree bigTree = new GenealogyTree();
 		
@@ -17,6 +17,15 @@ public class testclass {
 			System.out.println("");
 		}
 		
+		linkedSt.push("c");
+		linkedSt.push("r");
+		linkedSt.push("a");
+		linkedSt.push("c");
+		linkedSt.push("k");
+		
+		String xanaxAddikt = linkedSt.pop(); //should be k - good.
+		System.out.println(xanaxAddikt + " okokkokok");
+		System.out.println(linkedSt.peek()); //should be c - good.
 				//** Big Boi Test 1 **// Passes both tests.
 		
 		//**All of the new tree nodes we will be adding to our G-Tree.**

@@ -61,6 +61,8 @@ public class Ancestor{
     	GenealogyTree geneTree = new GenealogyTree();			 //The GenealogyTree we are deriving the ancestors from.
     	StackADT<String> researcher1Stack = new Stack<String>(); //Ancestor stack returned for researcher 1 (name1).
     	StackADT<String> researcher2Stack = new Stack<String>(); //Ancestor stack returned for researcher 2 (name2).
+    	ArrayList<String> commonAncestors = new ArrayList<String>(); //Stores the common ancestors between the stacks. 
+    	String lowestCommonAncestor = "";
     	
     	researcher1Stack = geneTree.getAncestorStack(name1); //The returned ancestor stack for researcher 1.
     	researcher2Stack = geneTree.getAncestorStack(name2); //The returned ancestor stack for researcher 2.
@@ -76,24 +78,26 @@ public class Ancestor{
     	if (researcher1Stack.isEmpty() || researcher2Stack.isEmpty()) {
     		return null;
     	}
-    	//Else, reverse both stacks so that the ancestors can be compared.
+    	//Else, reverse both stacks so that the ancestors can be compared. Root is now on the top of stack.
     	else {	
-    		researcher1Stack = researcher1Stack.reverse();
-    		String researcher1root = researcher1Stack.peek();  //Reversed stack for first researcher.
-    		
-    		researcher2Stack = researcher2Stack.reverse();
-    		String researcher2root = researcher2Stack.peek();  //Reversed stack for first researcher.
-    		
-    		//Get the level 
-    		for (TreeNode<String>)
-    	}
+    		researcher1Stack = researcher1Stack.reverse();  //Reversed stack for first researcher.  
+    		researcher2Stack = researcher2Stack.reverse();	//Reversed stack for second researcher.
 
-        // Return the lowest level name in the tree
-    	// that is an ancestor of both of the specified 
-    	// researcher names.
-    	
-    	// return the common researcher
-    	return "dogs"; //TODO DELETE THIS 
+    		while (!researcher1Stack.isEmpty() && !researcher2Stack.isEmpty()) {
+        		//Pop off the above ancestors from top of stack and continue search towards the bottom.
+    			String parent1 = researcher1Stack.pop(); 
+        		String parent2 = researcher2Stack.pop(); 
+        	
+        		if (parent1.equals(parent2)) {	  //If there is some type of common ancestor, record it in arraylist.
+        			commonAncestors.add(parent2); //Can add either parent1 or parent2 since they are identical strings.
+    			}
+    		}
+    		//The last ancestor in the arraylist means that it's the common ancestor between both stacks that is on 
+    			//the lowest level of the Genealogy Tree. 
+    		lowestCommonAncestor = commonAncestors.get(commonAncestors.size() - 1);
+    	}  	
+
+    	return lowestCommonAncestor; 
     }
 
     /** 
